@@ -10,7 +10,7 @@ typedef struct msghdr msghdr;
 
 typedef unsigned int socklen_t;
 
-typedef int (*real_accept_t)(int, sockaddr*, socklen_t*);
+typedef int (*real_accept_t)(int, sockaddr*, socklen_t*, int);
 typedef int (*real_connect_t)(int, const sockaddr*, socklen_t);
 
 typedef ssize_t (*real_write_t)(int, const void*, size_t);
@@ -71,7 +71,7 @@ ssize_t real_recvfrom(int fd,
 											socklen_t* restrict address_len);
 
 
-int real_accept(int fd, sockaddr* address, socklen_t* length);
+int real_accept4(int fd, sockaddr* address, socklen_t* length, int flags);
 int real_connect(int fd, const sockaddr* address, socklen_t length);
 
 int real_getsockopt(int fd,

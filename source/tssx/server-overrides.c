@@ -8,11 +8,13 @@
 
 /******************** OVERRIDES ********************/
 
-int accept(int server_socket, sockaddr *address, socklen_t *length) {
+int accept4(int server_socket, sockaddr *address, socklen_t *length, int flags) {
 	int client_socket;
 	int use_tssx;
 
-	if ((client_socket = real_accept(server_socket, address, length)) == ERROR) {
+	printf("called accept %d flag\n", flags);
+          
+	if ((client_socket = real_accept4(server_socket, address, length, flags)) == ERROR) {
 		return ERROR;
 	}
 
@@ -20,9 +22,11 @@ int accept(int server_socket, sockaddr *address, socklen_t *length) {
 		print_error("Could not check if server uses TSSX\n");
 		return ERROR;
 	} else if (!use_tssx) {
+		printf("no use \n");
 		return client_socket;
 	}
 
+	printf("lets print info \n");
 	if (_setup_tssx(client_socket) == ERROR) {
 		return ERROR;
 	}
@@ -58,7 +62,9 @@ int _setup_tssx(int client_socket) {
 	Session session = SESSION_INITIALIZER;
 	ConnectionOptions options;
 
+	printf("c1 \n");
 	options = options_from_socket(client_socket, SERVER);
+	printf("creat connection \n");
 	session.connection = create_connection(&options);
 
 	if (session.connection == NULL) {
@@ -102,7 +108,7 @@ int _send_segment_id_to_client(int client_socket, Session *session) {
 int _synchronize_with_client(int client_fd) {
 	char message;
 
-	unset_socket_non_blocking(client_fd);
+	int flags = unset_socket_non_blocking(client_fd);
 
 	// Expecting just a single synchronization byte
 	if (real_read(client_fd, &message, 1) == ERROR) {
@@ -111,7 +117,7 @@ int _synchronize_with_client(int client_fd) {
 	}
 
 	// Put the old flags back in place
-	// set_socket_flags(client_socket, flags);
+	//set_socket_flags(client_fd, flags);
 
 	return SUCCESS;
 }

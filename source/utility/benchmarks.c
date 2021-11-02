@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <time.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 #include "utility/arguments.h"
 #include "utility/benchmarks.h"
@@ -12,10 +14,10 @@ bench_t now() {
 #ifdef __MACH__
 	return ((double)clock()) / CLOCKS_PER_SEC * 1e9;
 #else
-	struct timespec ts;
-	timespec_get(&ts, TIME_UTC);
+	struct timeval ts;
+	gettimeofday(&ts, NULL);
 
-	return ts.tv_sec * 1e9 + ts.tv_nsec;
+	return ts.tv_sec*1e9 + ts.tv_usec*1e3;
 
 #endif
 }

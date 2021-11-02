@@ -9,7 +9,7 @@
 
 /******************** DEFINITIONS ********************/
 
-#define DEFAULT_BUFFER_SIZE 1000000
+#define DEFAULT_BUFFER_SIZE 1e10
 
 // clang-format off
 #define DEFAULT_CONNECTION_OPTIONS_INITIALIZER \

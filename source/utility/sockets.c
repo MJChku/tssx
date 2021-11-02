@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <sys/time.h>
 #include <unistd.h>
-
+#include <stdint.h>
 #include "utility/sockets.h"
 #include "utility/utility.h"
 

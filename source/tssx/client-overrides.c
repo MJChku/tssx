@@ -10,7 +10,7 @@
 
 int connect(int fd, const sockaddr* address, socklen_t length) {
 	int use_tssx;
-
+	printf("trying to connect\n");
 	if (real_connect(fd, address, length) == ERROR) {
 		return ERROR;
 	}
@@ -19,6 +19,7 @@ int connect(int fd, const sockaddr* address, socklen_t length) {
 		print_error("Could not check if socket uses TSSX");
 		return ERROR;
 	} else if (!use_tssx) {
+	        printf("no tssx\n");
 		return SUCCESS;
 	}
 

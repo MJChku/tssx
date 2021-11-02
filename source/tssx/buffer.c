@@ -99,8 +99,7 @@ size_t buffer_read(Buffer *buffer, void *data, size_t bytes_to_read) {
 	atomic_fetch_sub(&buffer->size, bytes_to_read);
 
 	// How many bytes we read (Needs to be -1 if nothing was read)
-	return (bytes_to_read + right_space) == 0 ? (size_t)-1
-																						: (bytes_to_read + right_space);
+	return (bytes_to_read + right_space) == 0 ? (size_t)-1 : (bytes_to_read + right_space);
 }
 
 size_t buffer_peek(Buffer *buffer, void *data, size_t data_size) {
@@ -264,9 +263,14 @@ int _escalation_level(Buffer *buffer, cycle_t start_time, Operation operation) {
 size_t _determine_available_space(Buffer *buffer, Operation operation) {
 	size_t available_space;
 	if (buffer->timeouts.non_blocking[operation]) {
+		//printf("buffer nonblocking\n");
 		available_space = _get_available_space(buffer, operation);
+		//printf("buffer nonblocking return \n");
 	} else {
+		//printf("buffer_bloking\n");
 		available_space = _block_for_available_space(buffer, operation);
+		//printf("buffer nonbloking return\n");
+
 	}
 	if (available_space == 0) {
 		return 0;

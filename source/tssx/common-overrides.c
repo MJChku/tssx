@@ -12,6 +12,7 @@
 
 /******************** REAL FUNCTIONS ********************/
 
+
 int real_fcntl_set_flags(int fd, int command, int flag) {
 	return ((real_fcntl_t)dlsym(RTLD_NEXT, "fcntl"))(fd, command, flag);
 }
@@ -56,10 +57,9 @@ ssize_t connection_write(int key,
 												 size_t requested_bytes,
 												 int which_buffer) {
 	Session* session;
-
 	session = bridge_lookup(&bridge, key);
 	if (session_has_connection(session)) {
-		if (connection_peer_died(session->connection)) return 0;
+		if (connection_peer_died(session->connection)) {return 0;}
 		// clang-format off
     return buffer_write(
         get_buffer(session->connection, which_buffer),
@@ -83,8 +83,9 @@ ssize_t connection_read(int key,
 		// incremented the count yet. so maybe the server should set the count to 2
 
 
-		if (connection_peer_died(session->connection)) return 0;
+		if (connection_peer_died(session->connection)) {return 0;}
 		// clang-format off
+
     return buffer_read(
         get_buffer(session->connection, which_buffer),
         destination,

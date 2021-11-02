@@ -16,9 +16,10 @@
 
 #include <sys/time.h>
 
-int create_segment(int total_size) {
+int create_segment(size_t total_size) {
 	int id;
 
+	printf("create segment \n");
 	assert(total_size > 0);
 
 	// Generate a random key until it is not taken yet
@@ -28,7 +29,7 @@ int create_segment(int total_size) {
 		}
 		// else just keep generating new keys (this one was taken)
 	}
-
+   	printf("create shared memory successful\n");
 	return id;
 }
 

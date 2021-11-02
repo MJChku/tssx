@@ -17,13 +17,15 @@ int check_tssx_usage(int fd, Side side) {
 	size_t length;
 	int return_code;
 
+	
 	length = _get_socket_address(fd, &address, side);
-
 	if ((return_code = _is_domain_and_stream_socket(fd, &address)) != true) {
 		// Either error (-1) or false (0) (the socket is not a domain socket)
+		printf("return code %d \n", return_code);
 		return return_code;
 	}
 
+	printf("WTF \n");
 	if (!ss_is_initialized(&selective_set)) {
 		_initialize_selective_set();
 	}
@@ -37,7 +39,7 @@ void _initialize_selective_set() {
 	if ((variable = _fetch_tssx_variable()) != NULL) {
 		_parse_tssx_variable(variable);
 	}
-
+printf("tssx var %s\n", variable);
 #ifdef DEBUG
 	if (variable == NULL) {
 		fprintf(stderr, "'USE_TSSX' not found, disabling TSSX by default ...\n");

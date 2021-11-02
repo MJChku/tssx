@@ -17,7 +17,7 @@
 Connection* create_connection(const ConnectionOptions* options) {
 	Connection* connection;
 	void* shared_memory;
-
+	printf("create connection\n");
 	assert(options != NULL);
 
 	if ((connection = malloc(sizeof *connection)) == NULL) {

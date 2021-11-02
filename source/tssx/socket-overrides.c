@@ -69,8 +69,8 @@ ssize_t real_recvfrom(int fd,
 	// clang-format on
 }
 
-int real_accept(int fd, sockaddr* address, socklen_t* length) {
-	return ((real_accept_t)dlsym(RTLD_NEXT, "accept"))(fd, address, length);
+int real_accept4(int fd, sockaddr* address, socklen_t* length, int flags) {
+	return ((real_accept_t)dlsym(RTLD_NEXT, "accept4"))(fd, address, length, flags);
 }
 
 int real_connect(int fd, const sockaddr* address, socklen_t length) {
